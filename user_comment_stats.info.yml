@@ -1,0 +1,5 @@
+name: 'user_comment_stats'
+type: module
+description: 'Custom module that displays user comment statistics, including the total number of comments, the last five comments with the associated node title, and the total word count of all user comments.'
+package: Custom
+core_version_requirement: ^10 || ^11
