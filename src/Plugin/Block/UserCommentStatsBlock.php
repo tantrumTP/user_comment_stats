@@ -6,9 +6,6 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\comment\Entity\Comment;
 use Drupal\node\Entity\Node;
-use Drupal\user\Entity\User;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'User Comment Stats' Block.
@@ -29,7 +26,7 @@ class UserCommentStatsBlock extends BlockBase
         $response = [];
         $user = $this->getContextualUser();
 
-        if (!$user) {
+        if (!$user || $user->isAnonymous()) {
             $response = [
                 '#markup' => $this->t('No user available.'),
             ];
