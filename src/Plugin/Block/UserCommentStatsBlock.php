@@ -39,6 +39,11 @@ class UserCommentStatsBlock extends BlockBase
                 '#total_comments' => $this->getTotalComments($user),
                 '#last_comments' => $this->getLastComments($user),
                 '#total_comments_words' => $this->getTotalCommentsWords($user),
+                '#attached' => [
+                    'library' => [
+                        'user_comment_stats/user_comment_stats_style'
+                    ]
+                ],
                 '#cache' => [
                     'contexts' => ['user', 'url'],
                 ],
