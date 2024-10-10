@@ -34,10 +34,15 @@ class UserCommentStatsBlock extends BlockBase
                 '#markup' => $this->t('No user available.'),
             ];
         } else {
-            $totalComments = $this->getTotalComments($user);
-            $lastComments = $this->getLastComments($user);
-            //TODO: Get total number of words from all user comments
-            exit;
+            $response = [
+                '#theme' => 'user_comment_stats',
+                '#total_comments' => $this->getTotalComments($user),
+                '#last_comments' => $this->getLastComments($user),
+                '#total_comments_words' => $this->getTotalCommentsWords($user),
+                '#cache' => [
+                    'contexts' => ['user', 'url'],
+                ],
+            ];
         }
 
         return $response;
@@ -94,5 +99,26 @@ class UserCommentStatsBlock extends BlockBase
         }
 
         return $response;
+    }
+
+    /**
+     * Get total number of words from all comments
+     */
+    protected function getTotalCommentsWords(AccountInterface $user)
+    {
+        $commentIDs = \Drupal::entityQuery('comment')
+            ->condition('uid', $user->id())
+            ->accessCheck(FALSE)
+            ->execute();
+
+        $word_count = 0;
+        if ($commentIDs) {
+            $comments = Comment::loadMultiple($commentIDs);
+
+            foreach ($comments as $comment) {
+                $word_count += str_word_count($comment->get('comment_body')->value);
+            }
+        }
+        return $word_count;
     }
 }
