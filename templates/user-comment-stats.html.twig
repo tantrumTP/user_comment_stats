@@ -1,0 +1,20 @@
+<section class="user-comment-stats">
+  <h2>{{ 'User Comment Stats'|t }}</h2>
+
+  <p><strong>{{ 'Total comments:'|t }}</strong> {{ total_comments }}</p>
+  
+  <h3>{{ 'Last 5 comments:'|t }}</h3>
+  {% if last_comments %}
+    <ul>
+      {% for comment in last_comments %}
+        <li>
+          <strong>{{ comment.node_title }}</strong>: {{ comment.comment|raw }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>{{ 'User has not commented yet'|t }}</p>
+  {% endif %}
+
+  <p><strong>{{ 'Total words in comments:'|t }}</strong> {{ total_comments_words ?? 0 }}</p>
+</section>
