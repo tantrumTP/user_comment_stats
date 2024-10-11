@@ -1,0 +1,4 @@
+services:
+  user_comment_stats.user_comment_stats_service:
+    class: 'Drupal\user_comment_stats\Services\UserCommentStatsService'
+    arguments: ['@current_user', '@entity_type.manager', '@current_route_match']
