@@ -1,0 +1,31 @@
+{
+    "name": "tantrum/user_comment_stats",
+    "description": "Custom module that displays user comment statistics, including the total number of comments, the last five comments with the associated node title, and the total word count of all user comments.",
+    "type": "drupal-module",
+    "license": "GPL-2.0",
+    "require": {
+        "drupal/core": "^10",
+        "drupal/comment": "^10",
+        "drupal/node": "^10",
+        "drupal/user": "^10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Drupal\\user_comment_stats\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/tantrumTP/user_comment_stats"
+        }
+    ],
+    "authors": [
+      {
+        "name": "Salvador Pérez Duarte",
+        "email": "salvapere@gmail.com",
+        "role": "Maintainer"
+      }
+    ]
+  }
+  
