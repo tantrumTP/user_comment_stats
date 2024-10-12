@@ -1,0 +1,35 @@
+.user-comment-stats {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .user-comment-stats h2, .user-comment-stats h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .user-comment-stats p, .user-comment-stats ul {
+    margin-bottom: 15px;
+  }
+  
+  .user-comment-stats p {
+    color: #555;
+  }
+  
+  .user-comment-stats ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  
+  .user-comment-stats ul li {
+    margin-bottom: 8px;
+  }
+  
+  .user-comment-stats strong {
+    color: #000;
+  }
+  

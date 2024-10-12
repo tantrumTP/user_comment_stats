@@ -1,1 +1,18 @@
 <?php
+
+
+/**
+ * Implements hook_theme().
+ */
+function user_comment_stats_theme() {
+    return [
+      'user_comment_stats' => [
+        'variables' => [
+          'total_comments' => NULL,
+          'last_comments' => NULL,
+          'total_comments_words' => NULL,
+        ],
+        'template' => 'user-comment-stats',
+      ],
+    ];
+  }
