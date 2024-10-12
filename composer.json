@@ -4,10 +4,7 @@
     "type": "drupal-module",
     "license": "GPL-2.0",
     "require": {
-        "drupal/core": "^10",
-        "drupal/comment": "^10",
-        "drupal/node": "^10",
-        "drupal/user": "^10"
+        "drupal/core": "^10"
     },
     "autoload": {
         "psr-4": {
