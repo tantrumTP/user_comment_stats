@@ -72,4 +72,30 @@ class UserCommentStatsServiceTest extends UnitTestCase
         $this->assertEquals($this->currentUser, $result);
         $this->assertEquals(0, $result->id(), 'Expected an anonymous user (UID 0).');
     }
+
+    /**
+     * Check if method returns the correct number of comments
+     */
+    public function testGetTotalComments()
+    {
+        //User mock
+        $mockUser = $this->createMock(AccountInterface::class);
+        $mockUser->method('id')->willReturn(1);
+
+        //EntityQuery mock
+        $mockQuery = $this->createMock(\Drupal\Core\Entity\Query\QueryInterface::class);
+        $mockQuery->method('condition')->willReturn($mockQuery);
+        $mockQuery->method('count')->willReturn($mockQuery);
+        $mockQuery->method('accessCheck')->willReturn($mockQuery);
+        $mockQuery->method('execute')->willReturn(3);
+
+        //Configure the EntityTypeManager to return the comment storage.
+        $mockStorage = $this->createMock(\Drupal\Core\Entity\EntityStorageInterface::class);
+        $mockStorage->method('getQuery')->willReturn($mockQuery);
+        $this->entityTypeManager->method('getStorage')->with('comment')->willReturn($mockStorage);
+
+        $result = $this->userCommentStatsService->getTotalComments($mockUser);
+
+        $this->assertEquals(3, $result);
+    }
 }
