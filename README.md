@@ -1,30 +1,45 @@
-## INTRODUCTION
+# User Comment Statistics Block
 
-The user_comment_stats module is a DESCRIBE_THE_MODULE_HERE.
+## Description
 
-The primary use case for this module is:
+This module provides a custom block to display user comment statistics in Drupal. It allows you to visualize relevant information about commenting activity on your site.
 
-- Use case #1
-- Use case #2
-- Use case #3
+## Features
 
-## REQUIREMENTS
+- Displays comment statistics per user.
+- Configurable through Drupal's administration interface.
+- Easy integration with other Drupal modules and themes.
 
-DESCRIBE_MODULE_DEPENDENCIES_HERE
+## Installation
 
-## INSTALLATION
+### Method 1: Composer (Recommended)
 
-Install as you would normally install a contributed Drupal module.
-See: https://www.drupal.org/node/895232 for further information.
+1. Add the repository to your `composer.json`:
 
-## CONFIGURATION
-- Configuration step #1
-- Configuration step #2
-- Configuration step #3
+    ```json
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/tantrumTP/user_comment_stats.git"
+        }
+    ]
+    ```
 
-## MAINTAINERS
+2. Run the following command:
 
-Current maintainers for Drupal 10:
+    ```bash
+    composer require tantrum/user_comment_stats
+    ```
 
-- FIRST_NAME LAST_NAME (NICKNAME) - https://www.drupal.org/u/NICKNAME
+3. Enable the module with Drush or from the Drupal module administration page (/admin/modules).
 
+### Method 2: Manual
+
+1. Download the module and place it in the `modules/custom` directory of your Drupal installation.
+2. Enable the module with Drush or from the Drupal module administration page (/admin/modules).
+
+## Configuration
+
+1. Go to the block configuration page (/admin/structure/block).
+2. Find the "User Comment Statistics" block and place it in the desired region of your theme.
+3. Configure the block options according to your needs.
