@@ -98,4 +98,64 @@ class UserCommentStatsServiceTest extends UnitTestCase
 
         $this->assertEquals(3, $result);
     }
+
+    public function testGetLastComments()
+    {
+        // Mock del usuario
+        $mockUser = $this->createMock(AccountInterface::class);
+        $mockUser->method('id')->willReturn(1);
+
+        //EntityQuery mock
+        $mockQuery = $this->createMock(\Drupal\Core\Entity\Query\QueryInterface::class);
+        $mockQuery->method('condition')->willReturn($mockQuery);
+        $mockQuery->method('sort')->willReturn($mockQuery);
+        $mockQuery->method('range')->willReturn($mockQuery);
+        $mockQuery->method('accessCheck')->willReturn($mockQuery);
+        $mockQuery->method('execute')->willReturn([10, 20]);
+
+        // Comment storage Mock
+        $mockStorage = $this->createMock(\Drupal\Core\Entity\EntityStorageInterface::class);
+        $mockStorage->method('getQuery')->willReturn($mockQuery);
+        $mockStorage->method('loadMultiple')->willReturn($this->getMockComments());
+
+        //Configure the EntityTypeManager to return the comment storage.
+        $this->entityTypeManager->method('getStorage')->with('comment')->willReturn($mockStorage);
+
+        $result = $this->userCommentStatsService->getLastComments($mockUser);
+
+        
+        $expected = [
+            ['comment' => 'Comment body 1', 'node_title' => 'Node Title 1'],
+            ['comment' => 'Comment body 2', 'node_title' => 'Node Title 2'],
+        ];
+
+        $this->assertEquals($expected, $result);
+    }
+
+    protected function getMockComments()
+    {
+        $mockComment1 = $this->createMock(\Drupal\comment\Entity\Comment::class);
+        $mockComment1->method('get')->willReturn($this->createMockValue('Comment body 1'));
+        $mockComment1->method('getCommentedEntity')->willReturn($this->getMockNode('Node Title 1'));
+
+        $mockComment2 = $this->createMock(\Drupal\comment\Entity\Comment::class);
+        $mockComment2->method('get')->willReturn($this->createMockValue('Comment body 2'));
+        $mockComment2->method('getCommentedEntity')->willReturn($this->getMockNode('Node Title 2'));
+
+        return [$mockComment1, $mockComment2];
+    }
+
+    protected function getMockNode($title)
+    {
+        $mockNode = $this->createMock(\Drupal\node\Entity\Node::class);
+        $mockNode->method('getTitle')->willReturn($title);
+        return $mockNode;
+    }
+
+    protected function createMockValue($value)
+    {
+        $mockValue = new \stdClass();
+        $mockValue->value = $value;
+        return $mockValue;
+    }
 }
