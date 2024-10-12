@@ -101,7 +101,7 @@ class UserCommentStatsServiceTest extends UnitTestCase
 
     public function testGetLastComments()
     {
-        // Mock del usuario
+        // User Mock
         $mockUser = $this->createMock(AccountInterface::class);
         $mockUser->method('id')->willReturn(1);
 
@@ -123,13 +123,38 @@ class UserCommentStatsServiceTest extends UnitTestCase
 
         $result = $this->userCommentStatsService->getLastComments($mockUser);
 
-        
+
         $expected = [
             ['comment' => 'Comment body 1', 'node_title' => 'Node Title 1'],
             ['comment' => 'Comment body 2', 'node_title' => 'Node Title 2'],
         ];
 
         $this->assertEquals($expected, $result);
+    }
+
+    public function testGetTotalCommentsWords()
+    {
+        // User Mock
+        $mockUser = $this->createMock(AccountInterface::class);
+        $mockUser->method('id')->willReturn(1);
+
+        //EntityQuery mock
+        $mockQuery = $this->createMock(\Drupal\Core\Entity\Query\QueryInterface::class);
+        $mockQuery->method('condition')->willReturn($mockQuery);
+        $mockQuery->method('accessCheck')->willReturn($mockQuery);
+        $mockQuery->method('execute')->willReturn([10, 20]);
+
+        // Comment storage Mock
+        $mockStorage = $this->createMock(\Drupal\Core\Entity\EntityStorageInterface::class);
+        $mockStorage->method('getQuery')->willReturn($mockQuery);
+        $mockStorage->method('loadMultiple')->willReturn($this->getMockCommentsOnlyBody());
+
+        // Configure the EntityTypeManager to return the comment storage.
+        $this->entityTypeManager->method('getStorage')->with('comment')->willReturn($mockStorage);
+
+        $result = $this->userCommentStatsService->getTotalCommentsWords($mockUser);
+
+        $this->assertEquals(4, $result);
     }
 
     protected function getMockComments()
@@ -141,6 +166,19 @@ class UserCommentStatsServiceTest extends UnitTestCase
         $mockComment2 = $this->createMock(\Drupal\comment\Entity\Comment::class);
         $mockComment2->method('get')->willReturn($this->createMockValue('Comment body 2'));
         $mockComment2->method('getCommentedEntity')->willReturn($this->getMockNode('Node Title 2'));
+
+        return [$mockComment1, $mockComment2];
+    }
+
+    protected function getMockCommentsOnlyBody()
+    {
+        $mockComment1 = $this->createMock(\Drupal\comment\Entity\Comment::class);
+        $mockComment1->method('get')
+            ->willReturn($this->createMockValue('Comment body 1')); // 3 palabras
+
+        $mockComment2 = $this->createMock(\Drupal\comment\Entity\Comment::class);
+        $mockComment2->method('get')
+            ->willReturn($this->createMockValue('Comment body 2')); // 3 palabras
 
         return [$mockComment1, $mockComment2];
     }
